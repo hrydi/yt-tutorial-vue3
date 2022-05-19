@@ -1,22 +1,9 @@
-import { createRouter, createWebHistory, useRouter, onBeforeRouteUpdate } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
-// const router = createRouter({
-//   history: createWebHistory(import.meta.env.BASE_URL),
-//   routes: [
-    
-//   ]
-// })
-
-
-router.beforeEach(function(to, from) {
-  console.log("Router: ", router);
-})
-
-export default {
-  setup() {
-    const router = useRouter()
-    
-    router.push({
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
       path: '/',
       name: 'main',
       component: () => import('@/views/Main.vue'),
@@ -37,9 +24,12 @@ export default {
           component: () => import('@/views/PageNotFound.vue'),
         },
       ]
-    })
-    onBeforeRouteUpdate((to, from) => {
+    }
+  ]
+})
 
-    })
-  }
-}
+
+router.beforeEach(function(to, from) {
+})
+
+export default router
