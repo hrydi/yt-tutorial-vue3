@@ -35,6 +35,7 @@ const fetchProductItems = async () => {
     product.value.items = await api('https://jsonplaceholder.typicode.com/posts')
     product.value.loading = false
   } catch (e) {
+    product.value.loading = false
     product.value.error = e.message
     Swal({
       title: 'Error Occurred !',
