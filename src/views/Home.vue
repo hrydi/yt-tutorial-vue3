@@ -1,6 +1,7 @@
 <script setup>
 import { ref, inject, onMounted } from 'vue';
 const Swal = inject('swal')
+const Api = inject('http')
 const product = ref({
   loading: false,
   items: [],
@@ -14,25 +15,10 @@ const open = () => Swal({
   timer: 1500
 })
 
-const api = async (url, options = {}) => {
-  try {
-    const fetchOptions = Object.assign({ headers: { 'Content-Type': 'application/json' } }, options)
-    const res = await fetch(`${url}`, fetchOptions)
-    const isJSON = res.headers.get('content-type').indexOf('application/json') > -1
-    if(!isJSON) throw new Error(`Invalid response type`)
-    const json = await res.json()
-    if(!res.ok) throw new Error(`${(json?.message ?? 'Request failed')}`)
-
-    return Promise.resolve(json)
-  } catch (e) {
-    return Promise.reject(e)
-  }
-}
-
 const fetchProductItems = async () => {
   product.value.loading = true
   try {
-    product.value.items = await api('https://jsonplaceholder.typicode.com/posts')
+    product.value.items = await Api('https://jsonplaceholder.typicode.com/posts')
     product.value.loading = false
   } catch (e) {
     product.value.loading = false
